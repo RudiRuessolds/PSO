@@ -1,18 +1,17 @@
 #include "stdafx.h"
-
-
-
-
+#include "Swarm.h"
 
 int main(){
 	sf::RenderWindow window(sf::VideoMode(WIDTH, Height, 32), "Swarm");
-	window.setFramerateLimit(60); // Set a framrate limit to reduce the CPU load
+	window.setFramerateLimit(60); // Set frame rate limit
 	window.setMouseCursorVisible(false);
 
 	sf::Clock deltaClock;
-	Schwarm* swarm = new Schwarm();
+	Swarm* swarm = new Swarm();
 	std::vector<Particle> particles;
+	particles.reserve(PARTICLES_COUNT);
 
+	//initialize particles
 	for (int i = 0; i < PARTICLES_COUNT; ++i)
 	{
 		Particle particle;
@@ -27,6 +26,7 @@ int main(){
 	}
 	swarm->init(particles);
 	
+	//Game loop
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -41,18 +41,21 @@ int main(){
 				break;
 			}
 		}
+		//measure deltatime
 		sf::Time deltaTime = deltaClock.restart();
 
-		// mouse objekt erstellen
+		// create mouse objekt
 		sf::CircleShape mouse(4.0f);
 		mouse.setFillColor(sf::Color::Black);
 		mouse.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(window)));
 
+		//update swarm with new mouse position
 		swarm->updateSwarm(mouse.getPosition(),deltaTime.asSeconds());
 
+		//clear window before rendering
 		window.clear(sf::Color(100, 100, 200));
 
-		//alle Partikel zeichnen 
+		//draw all Partikel 
 		for (int i = 0; i < PARTICLES_COUNT; ++i)
 		{
 			sf::CircleShape bird(2.0f);
@@ -61,9 +64,10 @@ int main(){
 			bird.setPosition(particles.at(i).position.x, particles.at(i).position.y);
 			window.draw(bird);
 		}
-		// mouse Zeichen 
+		// draw mouse 
 		window.draw(mouse);
 		
+		//render
 		window.display();
 
 	}

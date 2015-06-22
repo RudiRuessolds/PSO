@@ -1,14 +1,14 @@
 #include "stdafx.h"
 
-//Koeffizienten
-#define A 0.95f //Motivation für die aktuelle Geschwindigkeit
-#define B 1.1f //Motivation für Richtung zur besten beobachteten Position
-#define C 3.0f //Motivation für Richtung zum besten Nachbar
+//coefficients
+#define A 0.95f //Motivation for current velocity.
+#define B 1.1f //Motivation for own best position.
+#define C 3.0f //Motivation for best position of neighbours.
 
-//Die Unschärfefaktoren rs und rt sind Zufallswerte aus den Intervallen [0,s] und [u,t].
-#define S 1.5	//für rs (beeinflust B)
-#define U 1.5 //untere Schranke von rt (beeinflusst C)
-#define T 2.0 //obere Schranke von rt
+//Blur factors rs and rt are random values between [0,s] and [u,t].
+#define S 1.5 //for rs (influencing B)
+#define U 1.5 //lower limit of rt (influencing C)
+#define T 2.0 //upper limit of rt
 
 struct Particle
 {
@@ -19,15 +19,15 @@ struct Particle
 	sf::Vector3f velocity; //current velocity	
 };
 
-class Schwarm
+class Swarm
 {
 private:
 	typedef std::vector<Particle>::iterator iterator;
 	std::vector<Particle>* particles;
 
 public:
-	Schwarm();
-	~Schwarm();
+	Swarm();
+	~Swarm();
 	void init(std::vector<Particle>&);
 	int getRandomNumber(int min, int max);
 	float getRandomNumberFloat(float min, float max);
